@@ -5,21 +5,17 @@
 <head>
 	<title>Logins</title>
 
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-	<!--Fontawesome CDN-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
-	<!--Custom styles     background-image: url(ConfigImages/background2.jpg);      -->
-
+	
 </head>
 
 
 <style type="text/css">
 
 	body,html{
-		
-		background-image:url("../../ConfigImages/background1.jpg"");
+		background: url(http://localhost:8081/Sunaada/Images/ConfigImages/background2.jpg);
 		background-size: cover;
 		background-repeat: no-repeat;
 		height: 100%;
@@ -106,7 +102,7 @@
 	}
 </style>
 
-<body>
+<body background="ConfigImages/background2.jpg">
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
 			<div class="card">
