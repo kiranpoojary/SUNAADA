@@ -129,7 +129,7 @@ input:focus{
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-at"></i></span>
 							</div>
-							<input type="password" class="form-control" placeholder="Email ID">
+							<input type="text" class="form-control" placeholder="Email ID">
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
