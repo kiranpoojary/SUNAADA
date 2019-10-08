@@ -15,8 +15,9 @@ public class AccountDBActivity {
 		
 	}
 	
-	public void registeration() {
+	public boolean registeration() {
 		
+		return true;
 	}
 
 }
