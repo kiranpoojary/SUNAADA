@@ -20,6 +20,7 @@
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 	crossorigin="anonymous">
+	
 
 
 
@@ -221,6 +222,14 @@ input:focus {
 								<span class="input-group-text"><i class="fas fa-edit"></i></span>
 							</div>
 							<input type="text" name="seca" class="form-control"
+								placeholder="Security Answer" required>
+						</div>
+						
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-image"></i></span>
+							</div>
+							<input type="file" name="pic" class="form-control"
 								placeholder="Security Answer" required>
 						</div>
 						<br>
