@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
 
 /**
  * @author KIRAN
@@ -44,24 +44,38 @@ public class AccountDBActivity {
 
 	}
 
-	public boolean registerMe(String emailid,String mobile,String userid,String password,String secq,String seca,String utype,InputStream pic) {
+	public boolean registerMe(String name, String userid, String mob, String password, String secq, String seca,
+			String utype, InputStream pic) {
 
 		try {
+
 			connection = DriverManager.getConnection(dbUrl, "root", "");
-			System.out.print("jhghe");
-			/*
-			String query = "select count(*) as tot from users where UserID=?";			
-			PreparedStatement statement = (PreparedStatement) connection.prepareStatement(query);
-            statement.setString(1, emailid);
-			System.out.print(dbUrl);
-			ResultSet count = statement.executeQuery(query);
-				System.out.print(count.getInt("tot"));
-*/
+			String CheckingQuery = "select * from users where UserID=?";
+			PreparedStatement chekingStatement = (PreparedStatement) connection.prepareStatement(CheckingQuery);
+			chekingStatement.setString(1, userid);
+			ResultSet checkedResult = chekingStatement.executeQuery();
+			if (!checkedResult.next()) {
+				String insertingQuery = "insert into users values(?,?,?,?,?,?,?,?)";
+				PreparedStatement insertStatement = (PreparedStatement) connection.prepareStatement(insertingQuery);
+				System.out.println(name);
+				insertStatement.setString(1, name);
+				insertStatement.setString(2, mob);
+				insertStatement.setString(3, userid);
+				insertStatement.setString(4, password);
+				insertStatement.setString(5, secq);
+				insertStatement.setString(6, seca);
+				insertStatement.setString(7, utype);
+				insertStatement.setBlob(8, pic);
+				int inserts = insertStatement.executeUpdate();
+				return true;
+			}
+			
+			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return true;
+		return false;
 
 	}
 

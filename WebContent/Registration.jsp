@@ -147,7 +147,7 @@ input:focus {
 
 <body>
 	<form name="loginform" action="RegistrationServlet"
-		onsubmit="return validateForm()" method="post">
+		onsubmit="return validateForm()" method="post" enctype='multipart/form-data'>
 		<div class="container">
 			<div class="d-flex justify-content-center h-100">
 				<div class="card">

@@ -1,5 +1,10 @@
+<%@page import="java.util.Base64"%>
+<%@page import="java.io.OutputStream"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.io.PrintWriter"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@page import="java.sql.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -39,9 +44,120 @@
 	box-shadow: 12px 14px 22px 2px rgba(0, 0, 0, 0.75);
 	margin-bottom: 100px;
 }
+/* Footer */
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+section {
+    padding: 60px 0;
+}
+
+section .section-title {
+    text-align: center;
+    color: #007b5e;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+#footer {
+    background: #007b5e !important;
+}
+#footer h5{
+	padding-left: 10px;
+    border-left: 3px solid #eeeeee;
+    padding-bottom: 6px;
+    margin-bottom: 20px;
+    color:#ffffff;
+}
+#footer a {
+    color: #ffffff;
+    text-decoration: none !important;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+#footer ul.social li{
+	padding: 3px 0;
+}
+#footer ul.social li a i {
+    margin-right: 5px;
+	font-size:25px;
+	-webkit-transition: .5s all ease;
+	-moz-transition: .5s all ease;
+	transition: .5s all ease;
+}
+#footer ul.social li:hover a i {
+	font-size:30px;
+	margin-top:-10px;
+}
+#footer ul.social li a,
+#footer ul.quick-links li a{
+	color:#ffffff;
+}
+#footer ul.social li a:hover{
+	color:#eeeeee;
+}
+#footer ul.quick-links li{
+	padding: 3px 0;
+	-webkit-transition: .5s all ease;
+	-moz-transition: .5s all ease;
+	transition: .5s all ease;
+}
+#footer ul.quick-links li:hover{
+	padding: 3px 0;
+	margin-left:5px;
+	font-weight:700;
+}
+#footer ul.quick-links li a i{
+	margin-right: 5px;
+}
+#footer ul.quick-links li:hover a i {
+    font-weight: 700;
+}
+
+@media (max-width:767px){
+	#footer h5 {
+    padding-left: 0;
+    border-left: transparent;
+    padding-bottom: 0px;
+    margin-bottom: 10px;
+}
+}
+
 </style>
 </head>
 <body>
+<%
+
+String dbUrl = "jdbc:mysql://localhost/sunada";
+String driverName = "com.mysql.jdbc.Driver";
+Class.forName(driverName);
+Connection connection = (Connection) DriverManager.getConnection(dbUrl, "root", "");
+String CheckingQuery = "select * from instruments";
+Statement statement=connection.createStatement();
+
+//PreparedStatement chekingStatement = (PreparedStatement) connection.prepareStatement(CheckingQuery);
+//chekingStatement.setString(1, userid);
+ResultSet checkedResult = statement.executeQuery(CheckingQuery);
+ResultSet r1=null;
+ResultSet r2=null;
+
+r1=(checkedResult.next())?checkedResult:null;
+
+
+byte[] imgData1 = r1.getBytes("Image1"); // blob field 
+request.setAttribute("rvi", "Ravinath");
+r1.getString(2);
+String encode=Base64.getEncoder().encodeToString(imgData1);
+request.setAttribute("imgBase1", encode);
+
+r2=(checkedResult.next())?checkedResult:null;
+
+byte[] imgData2 = r2.getBytes("Image1"); // blob field 
+request.setAttribute("rvi2", "Ravinath2");
+r2.getString(2);
+String encod2=Base64.getEncoder().encodeToString(imgData1);
+request.setAttribute("imgBase2", encode);
+
+
+%>
+
 	<div class="">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
 			class="navbar-brand" href="#">Navbar</a>
@@ -125,6 +241,84 @@
 		<div class="row mt-5">
 			<div class="col-md-3">
 				<div class="card">
+					<img class="card-img-top img-fluid" src="data:image/jpeg;base64,${imgBase1}">
+					<div class="card-title">
+						<h4>GYM Tops</h4>
+					</div>
+					<div class="card-text">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+						Repudiandae fugiat et voluptate sunt officia vero molestias.<br />
+						<br /> <a class="btn btn-success text-light"> Buy Now</a> &nbsp;
+						<a class="btn btn-danger text-light"><i
+							class="fa fa-cart-plus" aria-hidden="true"></i> Add To Cart</a> <br />
+						<br />
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-3">
+				<div class="card">
+					<img class="card-img-top img-fluid" src="data:image/jpeg;base64,${imgBase2}">
+					<div class="card-title">
+						<h4>GYM Tops</h4>
+					</div>
+					<div class="card-text">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+						Repudiandae fugiat et voluptate sunt officia vero molestias.<br />
+						<br /> <a class="btn btn-success text-light"> Buy Now</a> &nbsp;
+						<a class="btn btn-danger text-light"><i
+							class="fa fa-cart-plus" aria-hidden="true"></i> Add To Cart</a> <br />
+						<br />
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-3">
+				<div class="card">
+					<img class="card-img-top img-fluid" src="c132.jpg">
+					<div class="card-title">
+						<h4>GYM Tops</h4>
+					</div>
+					<div class="card-text">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+						Repudiandae fugiat et voluptate sunt officia vero molestias.<br />
+						<br /> <a class="btn btn-success text-light"> Buy Now</a> &nbsp;
+						<a class="btn btn-danger text-light"><i
+							class="fa fa-cart-plus" aria-hidden="true"></i> Add To Cart</a> <br />
+						<br />
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="card">
+					<img class="card-img-top img-fluid" src="c172.jpg">
+					<div class="card-title">
+						<h4>GYM Tops</h4>
+					</div>
+					<div class="card-text">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+						Repudiandae fugiat et voluptate sunt officia vero molestias.<br />
+						<br /> <a class="btn btn-success text-light"> Buy Now</a> &nbsp;
+						<a class="btn btn-danger text-light"><i
+							class="fa fa-cart-plus" aria-hidden="true"></i> Add To Cart</a> <br />
+						<br />
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+<div class="container">
+		
+
+		<div class="row mt-5">
+			<div class="col-md-3">
+				<div class="card">
 					<img class="card-img-top img-fluid" src="c61.jpg">
 					<div class="card-title">
 						<h4>GYM Tops</h4>
@@ -198,117 +392,70 @@
 	</div>
 
 
-	<div class="container mt-5 mb-5">
-		<div class="row">
-			<h2>Ratings & Reviews</h2>
-		</div>
 
-		<div class="row mt-5 mb-5">
-			<div class="media">
-				<img class="mr-3" src="11.jpg" alt="Generic placeholder image">
-				<div class="media-body">
-					<h5 class="mt-0">
-						Very nice product. <span class="text-warning"><i
-							class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star"
-							aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i>
-							<i class="fa fa-star-half-o" aria-hidden="true"></i> <i
-							class="fa fa-star-o" aria-hidden="true"></i> </span>
-					</h5>
-					Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-					scelerisque ante sollicitudin. Cras purus odio, vestibulum in
-					vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
-					vulputate fringilla. Donec lacinia congue felis in faucibus.
+
+
+
+
+
+
+<!-- Footer -->
+	<section id="footer">
+		<div class="container">
+			<div class="row text-center text-xs-center text-sm-left text-md-left">
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<h5>Quick links</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>About</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Videos</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<h5>Quick links</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>About</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Videos</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<h5>Quick links</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>About</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
+						<li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
+						<li><a href="https://wwwe.sunlimetech.com" title="Design and developed by"><i class="fa fa-angle-double-right"></i>Imprint</a></li>
+					</ul>
 				</div>
 			</div>
-		</div>
-
-		<div class="row mb-5">
-			<div class="media">
-				<img class="mr-3" src="12.jpg" alt="Generic placeholder image">
-				<div class="media-body">
-					<h5 class="mt-0">
-						Best product best material.<span class="text-warning"><i
-							class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star"
-							aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i>
-							<i class="fa fa-star" aria-hidden="true"></i> <i
-							class="fa fa-star" aria-hidden="true"></i> </span>
-					</h5>
-					Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-					scelerisque ante sollicitudin. Cras purus odio, vestibulum in
-					vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
-					vulputate fringilla. Donec lacinia congue felis in faucibus.
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+					<ul class="list-unstyled list-inline social text-center">
+						<li class="list-inline-item"><a href="javascript:void();"><i class="fa fa-facebook"></i></a></li>
+						<li class="list-inline-item"><a href="javascript:void();"><i class="fa fa-twitter"></i></a></li>
+						<li class="list-inline-item"><a href="javascript:void();"><i class="fa fa-instagram"></i></a></li>
+						<li class="list-inline-item"><a href="javascript:void();"><i class="fa fa-google-plus"></i></a></li>
+						<li class="list-inline-item"><a href="javascript:void();" target="_blank"><i class="fa fa-envelope"></i></a></li>
+					</ul>
 				</div>
-			</div>
-		</div>
-
-
-		<div class="row mb-5">
-			<div class="media">
-				<img class="mr-3" src="13.jpg" alt="Generic placeholder image">
-				<div class="media-body">
-					<h5 class="mt-0">
-						Bad product.dont take this<span class="text-warning"><i
-							class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star"
-							aria-hidden="true"></i> <i class="fa fa-star-o"
-							aria-hidden="true"></i> <i class="fa fa-star-o"
-							aria-hidden="true"></i> <i class="fa fa-star-o"
-							aria-hidden="true"></i> </span>
-					</h5>
-					Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-					scelerisque ante sollicitudin. Cras purus odio, vestibulum in
-					vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
-					vulputate fringilla. Donec lacinia congue felis in faucibus.
+				</hr>
+			</div>	
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+					<p><u><a href="https://www.nationaltransaction.com/">National Transaction Corporation</a></u> is a Registered MSP/ISO of Elavon, Inc. Georgia [a wholly owned subsidiary of U.S. Bancorp, Minneapolis, MN]</p>
+					<p class="h6">&copy All right Reversed.<a class="text-green ml-2" href="https://www.sunlimetech.com" target="_blank">Sunlimetech</a></p>
 				</div>
-			</div>
+				</hr>
+			</div>	
 		</div>
-
-
-		<div class="row mb-5">
-			<div class="media">
-				<img class="mr-3" src="14.jpg" alt="Generic placeholder image">
-				<div class="media-body">
-					<h5 class="mt-0">
-						really nice product,value for money.<span class="text-warning"><i
-							class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star"
-							aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i>
-							<i class="fa fa-star-half-o" aria-hidden="true"></i> <i
-							class="fa fa-star-o" aria-hidden="true"></i> </span>
-					</h5>
-					Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-					scelerisque ante sollicitudin. Cras purus odio, vestibulum in
-					vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
-					vulputate fringilla. Donec lacinia congue felis in faucibus.
-				</div>
-			</div>
-		</div>
-
-		<div class="row mb-5">
-			<h2>Post Your Own Reviews</h2>
-		</div>
-
-
-		<form>
-			<div class="form-group">
-				<label for="exampleInputEmail1">Email address</label> <input
-					type="email" class="form-control" id="exampleInputEmail1"
-					aria-describedby="emailHelp" placeholder="Enter email"> <small
-					id="emailHelp" class="form-text text-muted">We'll never
-					share your email with anyone else.</small>
-			</div>
-			<div class="form-group">
-				<label for="exampleInputPassword1">Password</label>
-				<textarea type="text" class="form-control" id="exampleInputtextarea"
-					placeholder="write your own reviews" rows="3"></textarea>
-			</div>
-			<div class="form-check">
-				<input type="checkbox" class="form-check-input" id="exampleCheck1">
-				<label class="form-check-label" for="exampleCheck1">Check me
-					out</label>
-			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
-		</form>
-
-	</div>
+	</section>
+	<!-- ./Footer -->
 
 
 

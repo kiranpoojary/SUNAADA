@@ -1,5 +1,6 @@
 package sunada.profileactivity;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -7,6 +8,7 @@ import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import javax.servlet.http.Part;
  * Servlet implementation class RegistrationServlet
  */
 @WebServlet("/RegistrationServlet")
+@MultipartConfig(maxFileSize=16177216)  //1.5MB
 public class RegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -37,6 +40,7 @@ public class RegistrationServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
 		try {
 			AccountDBActivity activity = new AccountDBActivity();
 			String name, email, mob, password, secq, seca;
@@ -46,29 +50,23 @@ public class RegistrationServlet extends HttpServlet {
 			password = request.getParameter("passw");
 			secq = request.getParameter("secq");
 			seca = request.getParameter("seca");
-			InputStream picture = null;
-			/*
 			Part filePart = request.getPart("pic");
+			InputStream inputStream=null;
 			if (filePart != null) {
-	            // prints out some information for debugging
-	            System.out.println(filePart.getName());
-	            System.out.println(filePart.getSize());
-	            System.out.println(filePart.getContentType());
-
-	            //obtains input stream of the upload file
-	            picture = filePart.getInputStream();
+	            inputStream=filePart.getInputStream();
+	           
 	        }
 			
-			*/
 			
-			boolean d = activity.registerMe(name,mob,email,password,secq,seca,"1",picture);
+			
+			boolean d = activity.registerMe(name,email,mob,password,secq,seca,"1",inputStream);
 			PrintWriter out = response.getWriter();
 			if (d) {
 
 				out.println("<script src='https://unpkg.com/sweetalert/dist/sweetalert.min.js'></script>");
 				out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
 				out.println(
-						"<script> $(document).ready(function(){ var em=document.getElementById('eid').value; swal('Warning!',em, 'warning'); }); </script>");
+						"<script> $(document).ready(function(){ var em=document.getElementById('eid').value; swal('Success','Registration Complete', 'success'); }); </script>");
 
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("Registration.jsp");
 				requestDispatcher.include(request, response);
@@ -77,14 +75,14 @@ public class RegistrationServlet extends HttpServlet {
 				out.println("<script src='https://unpkg.com/sweetalert/dist/sweetalert.min.js'></script>");
 				out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
 				out.println(
-						"<script> $(document).ready(function(){ var em=document.getElementById('eid').text; swal('Warning!','email Not Registered', 'warning'); }); </script>");
+						"<script> $(document).ready(function(){ var em=document.getElementById('eid').text; swal('Warning!','Your Email ID Already Registered', 'warning'); }); </script>");
 
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("Registration.jsp");
 				requestDispatcher.include(request, response);
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}
