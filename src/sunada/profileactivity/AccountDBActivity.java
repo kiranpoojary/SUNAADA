@@ -38,11 +38,27 @@ public class AccountDBActivity {
 
 	}
 
+	@SuppressWarnings("finally")
 	public boolean login(String uid, String psw) {
+		Boolean authorized = false;
+		try {
+			connection = DriverManager.getConnection(dbUrl, "root", "");
+			PreparedStatement ps = (PreparedStatement) connection
+					.prepareStatement("SELECT * FROM users where UserID=? and password=?");
+			ps.setString(1, uid);
+			ps.setString(2, psw);
+			ResultSet rs = ps.executeQuery();
+			authorized = rs.next();
 
-		return true;
-
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			return authorized;
+			
+		}
 	}
+
+	
 
 	public boolean registerMe(String name, String userid, String mob, String password, String secq, String seca,
 			String utype, InputStream pic) {
@@ -69,8 +85,6 @@ public class AccountDBActivity {
 				int inserts = insertStatement.executeUpdate();
 				return true;
 			}
-			
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();

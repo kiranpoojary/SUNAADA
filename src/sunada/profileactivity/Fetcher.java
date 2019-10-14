@@ -20,17 +20,15 @@ public class Fetcher {
 		//PreparedStatement chekingStatement = (PreparedStatement) connection.prepareStatement(CheckingQuery);
 		//chekingStatement.setString(1, userid);
 		ResultSet checkedResult = statement.executeQuery(CheckingQuery);
-		while(checkedResult.next())
-		{
-			System.out.println(checkedResult.getString(1));
-			System.out.println(checkedResult.getString(2));
-			System.out.println(checkedResult.getString(3));
-			System.out.println(checkedResult.getBlob(8));
+		ResultSet r1=null;
+		ResultSet r2=null;
 
-			
-			
-		}
+		r1=(checkedResult.absolute(1))?checkedResult:null;		
+		System.out.println(r1.getString(1));
 		
+		
+		r2=(checkedResult.absolute(2))?checkedResult:null;
+		System.out.println(r2.getString(1));
 		
 
 	}

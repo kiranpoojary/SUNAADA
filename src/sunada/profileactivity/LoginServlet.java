@@ -3,6 +3,7 @@ package sunada.profileactivity;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,18 +40,29 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-		AccountDBActivity activity;
-		try {
-			activity = new AccountDBActivity();
-			if(activity.login("Kiran","password"))
-			{
-				
-			}
-		} catch (Exception e) {
+		  response.setContentType("text/html;charset=UTF-8");
+		  try {
+			  PrintWriter out = response.getWriter();
+		        
+		        AccountDBActivity activity=new AccountDBActivity();
+		        String email = request.getParameter("email");
+		        String pass = request.getParameter("password");   
+		        if(activity.login(email, pass))
+		        {
+		            RequestDispatcher rs = request.getRequestDispatcher("Home.jsp");
+		            rs.forward(request, response);
+		        }
+		        else
+		        {
+		           out.println("Username or Password incorrect");
+		           RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
+		           rs.include(request, response);
+		        }
 			
-			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
+	        
+	    }  
 		
-	}
-
 }

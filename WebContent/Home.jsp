@@ -135,32 +135,39 @@ Statement statement=connection.createStatement();
 //PreparedStatement chekingStatement = (PreparedStatement) connection.prepareStatement(CheckingQuery);
 //chekingStatement.setString(1, userid);
 ResultSet checkedResult = statement.executeQuery(CheckingQuery);
-ResultSet r1=null;
-ResultSet r2=null;
+String encode;
 
-r1=(checkedResult.next())?checkedResult:null;
-
-
-byte[] imgData1 = r1.getBytes("Image1"); // blob field 
-request.setAttribute("rvi", "Ravinath");
-r1.getString(2);
-String encode=Base64.getEncoder().encodeToString(imgData1);
+checkedResult.next();
+byte[] imgData1 =checkedResult.getBytes(8); // blob field 
+encode=Base64.getEncoder().encodeToString(imgData1);
 request.setAttribute("imgBase1", encode);
 
-r2=(checkedResult.next())?checkedResult:null;
+checkedResult.next();
+byte[] imgData2=checkedResult.getBytes(8);
+encode=Base64.getEncoder().encodeToString(imgData2);
+request.setAttribute("imgBase2",encode);
 
-byte[] imgData2 = r2.getBytes("Image1"); // blob field 
-request.setAttribute("rvi2", "Ravinath2");
-r2.getString(2);
-String encod2=Base64.getEncoder().encodeToString(imgData1);
-request.setAttribute("imgBase2", encode);
+
+
+checkedResult.next();
+byte[] imgData3 = checkedResult.getBytes(8); // blob field 
+encode=Base64.getEncoder().encodeToString(imgData3);
+request.setAttribute("imgBase3", encode);
+
+
+
+checkedResult.next();
+byte[] imgData4=checkedResult.getBytes(8);
+encode=Base64.getEncoder().encodeToString(imgData4);
+request.setAttribute("imgBase4",encode);
+
 
 
 %>
 
-	<div class="">
+
 		<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
-			class="navbar-brand" href="#">Navbar</a>
+			class="navbar-brand" href="#">Sunada</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -198,7 +205,7 @@ request.setAttribute("imgBase2", encode);
 			</ul>
 		</div>
 		</nav>
-	</div>
+
 
 
 	<div class="row">
@@ -277,7 +284,7 @@ request.setAttribute("imgBase2", encode);
 
 			<div class="col-md-3">
 				<div class="card">
-					<img class="card-img-top img-fluid" src="c132.jpg">
+					<img class="card-img-top img-fluid" src="data:image/jpeg;base64,${imgBase3}">
 					<div class="card-title">
 						<h4>GYM Tops</h4>
 					</div>
@@ -294,7 +301,7 @@ request.setAttribute("imgBase2", encode);
 
 			<div class="col-md-3">
 				<div class="card">
-					<img class="card-img-top img-fluid" src="c172.jpg">
+					<img class="card-img-top img-fluid" src="data:image/jpeg;base64,${imgBase4}">
 					<div class="card-title">
 						<h4>GYM Tops</h4>
 					</div>
@@ -319,7 +326,7 @@ request.setAttribute("imgBase2", encode);
 		<div class="row mt-5">
 			<div class="col-md-3">
 				<div class="card">
-					<img class="card-img-top img-fluid" src="c61.jpg">
+					<img class="card-img-top img-fluid" src="data:image/jpeg;base64,${imgBase1}">
 					<div class="card-title">
 						<h4>GYM Tops</h4>
 					</div>
@@ -337,7 +344,7 @@ request.setAttribute("imgBase2", encode);
 
 			<div class="col-md-3">
 				<div class="card">
-					<img class="card-img-top img-fluid" src="c94.jpg">
+					<img class="card-img-top img-fluid" src="data:image/jpeg;base64,${imgBase2}">
 					<div class="card-title">
 						<h4>GYM Tops</h4>
 					</div>
@@ -355,7 +362,7 @@ request.setAttribute("imgBase2", encode);
 
 			<div class="col-md-3">
 				<div class="card">
-					<img class="card-img-top img-fluid" src="c132.jpg">
+					<img class="card-img-top img-fluid" src="data:image/jpeg;base64,${imgBase1}">
 					<div class="card-title">
 						<h4>GYM Tops</h4>
 					</div>
@@ -372,7 +379,7 @@ request.setAttribute("imgBase2", encode);
 
 			<div class="col-md-3">
 				<div class="card">
-					<img class="card-img-top img-fluid" src="c172.jpg">
+					<img class="card-img-top img-fluid" src="data:image/jpeg;base64,${imgBase2}">
 					<div class="card-title">
 						<h4>GYM Tops</h4>
 					</div>
