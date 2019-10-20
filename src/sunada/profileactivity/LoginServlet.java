@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -46,17 +47,33 @@ public class LoginServlet extends HttpServlet {
 		        
 		        AccountDBActivity activity=new AccountDBActivity();
 		        String email = request.getParameter("email");
-		        String pass = request.getParameter("password");   
+		        String pass = request.getParameter("password"); 
+		        HttpSession session = request.getSession(true);	
+		        session.setAttribute("loged","false");
 		        if(activity.login(email, pass))
 		        {
+		        	    
+		             session.setAttribute("currentSessionUser",email); 
+		             session.setAttribute("loged","true");
+		             session.setAttribute("helper", "true");
+		             response.sendRedirect("Home.jsp"); //logged-in page   
+		             
+		        	/*
 		            RequestDispatcher rs = request.getRequestDispatcher("Home.jsp");
 		            rs.forward(request, response);
+		            */
 		        }
 		        else
 		        {
-		           out.println("Username or Password incorrect");
-		           RequestDispatcher rs = request.getRequestDispatcher("Login.jsp");
-		           rs.include(request, response);
+		        	out.println("<script src='https://unpkg.com/sweetalert/dist/sweetalert.min.js'></script>");
+					out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+					out.println(
+							"<script> $(document).ready(function(){ var em=document.getElementById('eid').value; swal('Login Unsuccessful','Invalid Email ID or Password', 'warning'); }); </script>");
+					session.setAttribute("loged","false");
+					RequestDispatcher requestDispatcher = request.getRequestDispatcher("Registration.jsp");
+					requestDispatcher.include(request, response);
+		        	
+		        	
 		        }
 			
 		} catch (Exception e) {
