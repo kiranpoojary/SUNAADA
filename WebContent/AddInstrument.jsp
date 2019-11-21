@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Registration</title>
+<title>New Instruments</title>
 
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -26,6 +26,7 @@
 
 
 </head>
+<!-- 
 <script type="text/javascript">
 	function validateForm() {
 		if (document.getElementById("psw").value != document
@@ -42,11 +43,11 @@
 		}
 	}
 </script>
-
+ -->
 <style type="text/css">
 body, html {
 	background-image:
-		url(http://localhost:8081/Sunaada/Images/ConfigImages/background2.jpg);
+		url(http://localhost:8080/Sunaada/Images/ConfigImages/background2.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 100%;
@@ -146,110 +147,112 @@ input:focus {
 </style>
 
 <body>
-	<form name="loginform" action="RegistrationServlet"
-		onsubmit="return validateForm()" method="post" enctype='multipart/form-data'>
+	
+	<form name="add" action="InstrumentAdder.jsp"  method="get" enctype='multipart/form-data'>
+	
 		<div class="container">
 			<div class="d-flex justify-content-center h-100">
 				<div class="card">
 					<div class="card-header">
-						<h3>Sign Up</h3>
+					<center>
+						<h3>Add New Instruments</h3></center>
 					</div>
 					<div class="card-body">
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fas fa-question"></i></span>
 							</div>
-							<input type="text" name="fname" class="form-control"
-								placeholder="Full Name" required>
+							<input type="text" name="iname" class="form-control"
+								placeholder="Instrument Name" required>
 
 						</div>
-						<div class="input-group form-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-at"></i></span>
-							</div>
-							<input type="email" name="emailid" id="eid" class="form-control"
-								placeholder="Email ID" required>
-						</div>
-						<div class="input-group form-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i
-									class="fas fa-mobile-alt"></i></span>
-							</div>
-							<input type="text" name="mob" class="form-control"
-								placeholder="Mobile Number" pattern="[6789][0-9]{9}" required>
-						</div>
-
-						<div class="input-group form-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							<input type="password" name="passw" 
-								id="psw" class="form-control" placeholder="Password" required>
-						</div>
-						<div class="input-group form-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							<input type="password" id="cpsw" 
-								class="form-control" placeholder="ReType Password" required>
-						</div>
-
-
+						
+						
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-question"></i></span>
 							</div>
 							<div class="dropdown">
-								<select id="mylist" name="secq" class="list">
-									<option value="1">Select a security Question</option>
-									<option value="Who is your best friend?">Who is your
-										best friend?</option>
-									<option value="What is your area pincode?">What is
-										your area pincode?</option>
+								<select id="cat" name="cat" class="list">
+									
+									<option value="Thabala">Thabala</option>
+									<option value="Veena">Veena</option>
 									<option
-										value="What is your date of
-										birth?(dd-mm-yyyy)">What
-										is your date of birth?(dd-mm-yyyy)</option>
-									<option value="What is your mobile number?">What is
-										your mobile number?</option>
+										value="Violin">Violin</option>
+									<option value="Morsing">Morsing</option>
+										<option value="Mridanga">Mridanga</option>
+									<option value="Flute">Flute</option>
+									<option value="Ghata">Ghata</option>
+									<option
+										value="Khanjari">Khanjari</option>
+									
 								</select>
 							</div>
-						</div>
-
-						<div class="input-group form-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-edit"></i></span>
-							</div>
-							<input type="text" name="seca" class="form-control"
-								placeholder="Security Answer" required>
 						</div>
 						
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-edit"></i></span>
+								<span class="input-group-text"><i class="fas fa-question"></i></span>
 							</div>
-							<input type="text" name="secid" class="form-control"
-								placeholder="Aadhaar Number" pattern="[1234567890][0-9]{11}" required>
+							<input type="text" name="desc" id="eid" class="form-control"
+								placeholder="Description" required>
+						</div>
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i
+									class="fas fa-question"></i></span>
+							</div>
+							<input type="text" name="pdf" class="form-control"
+								placeholder="Per Day Fare" required>
+						</div>
+
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-question"></i></span>
+							</div>
+							<input type="text" name="deposite" 
+								id="psw" class="form-control" placeholder="Security Deposite"   required>
+						</div>
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-question"></i></span>
+							</div>
+							<input type="text" id="cpsw"  name="stock"
+								class="form-control" placeholder="Initial Stock" maxlength=6 minlength=1  pattern="[1234567890][0-9]{}" required>
+						</div>
+
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-image"></i></span>
+							</div>
+							<input type="file" name="pic1" class="form-control"
+								placeholder="Image1" required>
 						</div>
 						
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-image"></i></span>
 							</div>
-							<input type="file" name="pic" class="form-control"
-								placeholder="Security Answer" required>
+							<input type="file" name="pic2" class="form-control"
+								placeholder="Image2" required>
 						</div>
-						<br>
+
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-edit"></i></span>
+							</div>
+							<input type="text" name="discount" class="form-control"
+								placeholder="Discount Rate"  required>
+						</div>
 						<div class="form-group ">
 							<center>
-								<input type="submit" value="Register Now" class="btn reg_btn ">
-								<a href="Login.jsp" class="btn reg_btn ">Login Now</a>
-							</center>
+								<input type="submit" value="Add Instrument" class="btn reg_btn ">
+								</center>
 							
-							<center>
-								
-							</center>
+							
 						</div>
+						
+						
 
 					</div>
 				</div>

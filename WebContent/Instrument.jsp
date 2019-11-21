@@ -1,3 +1,9 @@
+<%@page import="java.text.ParseException"%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="javax.swing.text.DateFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -12,10 +18,11 @@
 <%@page import="java.io.PrintWriter"%>
 <%@page import="javax.servlet.http.HttpSession"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="NotFound.html"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 <!-- Bootstrap CSS -->
@@ -23,9 +30,11 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="style.css">
+
 
 
 <!-- Optional JavaScript -->
@@ -37,17 +46,19 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
 	crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
-	
-	<script type="text/javascript">
+
+<script type="text/javascript">
 	function subform() {
 		document.getElementById("myform").submit();
-		
+
 	}
-	</script>
+</script>
 
 <style type="text/css">
 .card {
@@ -60,16 +71,31 @@
 	margin-bottom: 100px;
 }
 </style>
+
+
+<script type="text/javascript">
+	function IsEmpty() {
+		if (document.forms['frm'].review.value === "") {
+			swal("Warning!", "Review Should Not Be Empty", "warning");
+			return false;
+		}
+		return true;
+	}
+</script>
+
+
 </head>
 <%
 	String log = "";
 	String logeduser = "";
-	if (session.getAttribute("currentSessionUser") != null && session.getAttribute("loged").equals("true")) {
 
+	if (session.getAttribute("currentSessionUser") != null && session.getAttribute("loged").equals("true")) {
 		logeduser = (String) session.getAttribute("currentSessionUser");
+		session.setAttribute("currentSessionUser", logeduser);
 
 	} else {
 		logeduser = "Login";
+		session.setAttribute("currentSessionUser", "Login");
 
 	}
 %>
@@ -80,8 +106,11 @@
 		String driverName = "com.mysql.jdbc.Driver";
 		Class.forName(driverName);
 		Connection connection = (Connection) DriverManager.getConnection(dbUrl, "root", "");
-		//String selectedInstrument="Ghatam";
-		String selectedInstrument = (String) request.getAttribute("selectedInstrument");
+		String selectedInstrument = ((String) request.getAttribute("selectedInstrument") != null)
+				? (String) request.getAttribute("selectedInstrument")
+				: (String) session.getAttribute("selectedInstrument");
+		session.setAttribute("selectedInstrument", selectedInstrument);
+
 		PreparedStatement ps = (PreparedStatement) connection
 				.prepareStatement("SELECT * FROM instruments where Instrument_Name=?");
 		ps.setString(1, selectedInstrument);
@@ -92,29 +121,42 @@
 		String pname = getInstrument.getString(1);
 		String pdesc = getInstrument.getString(3);
 		Double fare = getInstrument.getDouble(4);
+		Integer qty = getInstrument.getInt(6);
+		Integer off = getInstrument.getInt(9);
+		session.setAttribute("fare", ((fare - ((fare * off) / 100))));
+		session.setAttribute("discount", ((fare * off) / 100));
+		
+		String status;
 
-		byte[] imgData1 = getInstrument.getBytes(8); // blob field 
+		if (qty > 0) {
+
+			status = "Available";
+
+		} else {
+			status = "UnAvailable";
+		}
+
+		byte[] imgData1 = getInstrument.getBytes(7); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData1);
 		request.setAttribute("imgBase1", encode);
 
-		byte[] imgData2 = getInstrument.getBytes(9); // blob field 
+		byte[] imgData2 = getInstrument.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData2);
 		request.setAttribute("imgBase2", encode);
 
-		PreparedStatement getStock = (PreparedStatement) connection
-				.prepareStatement("SELECT * FROM stock where Instrument_Name=?");
-		getStock.setString(1, selectedInstrument);
-		ResultSet getStockResult = getStock.executeQuery();
-
-		getStockResult.next();
-		Integer stock = (Integer) getStockResult.getInt(2);
-
-		String status = getStockResult.getString(3);
-		String minDate = java.time.LocalDate.now().toString();
+		PreparedStatement getRate = (PreparedStatement) connection
+				.prepareStatement("SELECT AVG(rate) FROM user_ratings where Instrument_Name=?");
+		getRate.setString(1, selectedInstrument);
+		ResultSet rateResult = getRate.executeQuery();
+		rateResult.next();
+		float avgRate = rateResult.getFloat(1);
+		int intAvg = (int) avgRate / 1;
+		float floatAvg = (float) avgRate % 1;
 	%>
 
 
-	<form action="InstrumentServlet" method="post" id="myform">
+	<form action="InstrumentServlet" name="frm" method="post" id="myform"
+		onsubmit="return validateForm()">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
 			class="navbar-brand" href="Home.jsp">Sunada</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -123,43 +165,8 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">MyInstruments</a></li>
 
-				<li class="nav-item"><a class="nav-link disabled" href="#">Latest</a>
-				</li>
-			</ul>
 
-			<input class="form-control mr-sm-2" type="text"
-				placeholder="Search Instruments" aria-label="Search"
-				name="instrument"> <input type="button"
-				class="btn btn-outline-success my-2 my-sm-0 " name="clicked"
-				value="search" onclick = "subform();"> &nbsp; &nbsp;
-			<li class="nav-item dropdown"><a
-				class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <%=logeduser%>
-			</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="#"><%=(logeduser.equals("Login")) ? "Login Required" : "View Profile"%></a>
-					<a class="dropdown-item" href="#"><%=(logeduser.equals("Login")) ? "Login Required" : "Change Password"%></a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="Login.jsp"><%=(logeduser.equals("Login")) ? "Login" : "Logout"%></a>
-				</div></li>
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"></li>
-				<li class="nav-item">
-				
-						
-					<button class="btn btn-danger text-light fa fa-heart"
-						aria-hidden="true" type="button" value="wishlistAll"
-						name="clicked" onclick="subform()">Wish List</button>
-				</li>
-			</ul>
 		</div>
 		</nav>
 		<div class="container"></div>
@@ -196,31 +203,54 @@
 					</div>
 					<div class="row">
 						<h1>
-							<i class="fa fa-inr" aria-hidden="true"></i><%=fare%>/day
+							<i class="fa fa-inr" aria-hidden="true"></i><%=fare - ((fare * off) / 100)%>/day
 						</h1>
 						&nbsp; &nbsp;
 						<h3>
-							<del>799</del>
+							<del><%=fare%></del>
 						</h3>
 						&nbsp; &nbsp;
-						<h2 class="text-success">30% off</h2>
+						<h2 class="text-success"><%=off%>% off
+						</h2>
 					</div>
 					<div class="row">
 
-						&nbsp; &nbsp; <label style="color: red">Service Rating :</label>
-						<h5 style="color: green">
-							<b>3.5/5</b></b>
-						</h5>
+						&nbsp; &nbsp; <label style="color: red">Service Rating :</label> <b>
+							<%
+								int i, j;
+								if (intAvg > 0) {
+									for (i = 1; i <= intAvg; i++) {
+										out.print("<i class='fa fa-star aria-hidden=true' style='font-size:20px;color:#FCDF03'>");
+										out.print("</i>");
+									}
+									if (floatAvg > 0) {
+										out.print("<i class='fa fa-star-half-o' style='font-size:20px;color:#FCDF03'>");
+										out.print("</i>");
+									} else
+										i--;
+									for (j = i; j < 5; j++) {
+										out.print("<i class='fa fa-star'  style='font-size:20px;color:#D3D3D3'>");
+										out.print("</i>");
+
+									}
+								}
+
+								else {
+									out.print("No Ratings Available");
+
+								}
+							%>
+						</b></b>
+
 					</div>
 					<div class="row">
 						<%=pdesc%>
 
 						<p>
-							<br> <br> <br> <br> <i
-								class="text-success fa fa-check-square-o" aria-hidden="true"></i>
-							<strong>Wallet Offer :</strong>5% Instant Discount on pay with <i
-								class="fa fa-google-wallet" aria-hidden="true"></i> Sunada
-							wallet
+							<br> <br> <i class="text-success fa fa-check-square-o"
+								aria-hidden="true"></i> <strong>Wallet Offer :</strong> Use
+							Sunada Wallet To Avail Future Rental Benefits <i
+								class="fa fa-google-wallet" aria-hidden="true"></i>
 						</p>
 					</div>
 					<div class="row mt-4">
@@ -234,48 +264,73 @@
 					<div class="row mt-4">
 						<h4>Required Instrument: &nbsp; &nbsp;</h4>
 						<p style="font-size: 21px">
-							<input class="form-control" max=6 min=1 value="1" type="number">
+							<input class="form-control" max=6 min=1 value="1" type="number" name="reqQty">
 						</p>
 					</div>
 					<div class="row mt-4">
-						<input type="date" class="form-control" min="<%=minDate%>"
-							style="height: 40px; width: 180px" name="date" required>
 						&nbsp; &nbsp; &nbsp; &nbsp;
-							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow" name="clicked">Rent Now</button>
-								&nbsp; &nbsp; &nbsp; &nbsp;
+						<%
+							if (status.equals("Available")) {
+						%>
+						From&nbsp; &nbsp; &nbsp;<input type="date" class="form-control"
+							min="<%=java.time.LocalDate.now().toString()%>"
+							style="height: 40px; width: 180px" name="datefrom"
+							value="<%=java.time.LocalDate.now().toString()%>" required>
+						&nbsp; &nbsp; &nbsp; &nbsp; To&nbsp; &nbsp; &nbsp; <input
+							type="date" class="form-control"
+							min="<%=java.time.LocalDate.now().plusDays(1).toString()%>"
+							style="height: 40px; width: 180px" name="dateto"
+							value="<%=java.time.LocalDate.now().plusDays(1).toString()%>"
+							required> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+						&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+</div >
+						
+						<%
+						
+							out.print("<button class='btn btn-success text-light'  aria-hidden='true' type='submit' value='rentNow' name='clicked'>Rent Now</button>");
+							} else {
+
+								out.print(
+										"<button class='btn btn-success text-light'  aria-hidden='true' type='submit' value='rentNow' name='clicked' disabled>Rent Now</button>");
+
+							}
+						%>
+
+						&nbsp; &nbsp; &nbsp; &nbsp;
 						<button class="btn btn-danger text-light fa fa-heart"
-						aria-hidden="true" type="button" value="wishlistAll"
-						name="clicked" onclick="subform()">Wish List</button>
-						<p style="font-size: 21px">	
-						</p>
+							aria-hidden="true" type="submit" value="addwishlist"
+							name="clicked">Add To Wish List</button>
+						<p style="font-size: 21px"></p>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<%
+			int rate;
 			PreparedStatement getReviews = (PreparedStatement) connection
-					.prepareStatement("SELECT * FROM user_ratings where Instrument_Name=?");
+					.prepareStatement("SELECT * FROM user_ratings ur WHERE  ur.Instrument_Name=?");
 			getReviews.setString(1, selectedInstrument);
 			ResultSet reviewResult = getReviews.executeQuery();
 
-			PreparedStatement getProfile = (PreparedStatement) connection
-					.prepareStatement("SELECT * FROM users u,user_ratings rr WHERE u.UserID=rr.UserID");
-
+			PreparedStatement getProfile = (PreparedStatement) connection.prepareStatement(
+					"SELECT * FROM users u,user_ratings ur WHERE ur.UserID=u.UserID  AND ur.Instrument_Name=?");
+			getProfile.setString(1, selectedInstrument);
 			ResultSet profileResult = getProfile.executeQuery();
 		%>
 
 		<div class="container mt-5 mb-5">
 			<div class="row">
-				<h2>Ratings & Reviews</h2>
+				<h2>Reviews & Ratings</h2>
+
 			</div>
 			<%
 				byte[] imgData;
 
 				while (reviewResult.next() && profileResult.next()) {
 
-					imgData = profileResult.getBytes(8);
+					rate = Integer.parseInt(reviewResult.getString(4));
+					imgData = profileResult.getBytes(9);
 					encode = Base64.getEncoder().encodeToString(imgData);
 					request.setAttribute("imgBase", encode);
 					out.print("<div class='row mb-2'>");
@@ -291,16 +346,19 @@
 					out.print("<h5 class='mt-0'>");
 					out.print(profileResult.getString(1));
 					out.print("<span class='text-warning'>");
-					out.print("<i class='fa fa-star aria-hidden=true'>");
-					out.print("</i>");
-					out.print("<i class='fa fa-star aria-hidden='true'>");
-					out.print("</i>");
-					out.print("<i class='fa fa-star aria-hidden=true'>");
-					out.print("</i>");
-					out.print("<i class='fa fa-star aria-hidden=true'>");
-					out.print("</i>");
-					out.print("<i class='fa fa-star' aria-hidden='true'>");
-					out.print("</i>");
+
+					for (i = 1; i <= 5; i++) {
+						if (rate >= i) {
+							out.print("<i class='fa fa-star aria-hidden=true'>");
+							out.print("</i>");
+
+						} else {
+							out.print("<i class='fa fa-star'  style='font-size:20px;color:#D3D3D3'>");
+							out.print("</i>");
+						}
+
+					}
+
 					out.print("</span>");
 					out.print("</h5>");
 
@@ -313,38 +371,39 @@
 			%>
 
 
+			<%
+				if (logeduser.equals("Login")) {
+			%>
+			<h1>Login to Add Review</h1>
 
+			<%
+				} else {
+			%>
 			<div class="row mb-5">
 				<h2>Post Your Own Reviews</h2>
 			</div>
 
 
-			<form>
-				<div class="form-group">
-					<label for="exampleInputEmail1">Email address</label> <input
-						type="email" class="form-control" id="exampleInputEmail1"
-						aria-describedby="emailHelp" placeholder="Enter email"> <small
-						id="emailHelp" class="form-text text-muted">We'll never
-						share your email with anyone else.</small>
-				</div>
-				<div class="form-group">
-					<label for="exampleInputPassword1">Password</label>
-					<textarea type="text" class="form-control"
-						id="exampleInputtextarea" placeholder="write your own reviews"
-						rows="3"></textarea>
-				</div>
-				<div class="form-check">
-					<input type="checkbox" class="form-check-input" id="exampleCheck1">
-					<label class="form-check-label" for="exampleCheck1">Check
-						me out</label>
-				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
+
+
+			<div class="form-group">
+				<label for="exampleInputPassword1">Add Your Reviews Bellow</label>
+				<textarea type="text" class="form-control" id="exampleInputtextarea"
+					name="review" placeholder="write your own reviews" rows="3"></textarea>
+			</div>
+			Select Rating <input class="list" type="number" name="rate" value=1
+				min=1 max=5>
+			<div class="form-check"></div>
+			<br>
+			<button type="submit" onclick="return IsEmpty();" name="clicked"
+				value="review" class="btn btn-primary">Submit Review</button>
 
 		</div>
 
 
-
+	<%
+				}
+	%>
 
 	</form>
 </body>

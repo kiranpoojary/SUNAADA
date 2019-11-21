@@ -108,10 +108,16 @@ input:focus {
 
 </head>
 <body>
-	<form action="LoginServlet" method="post">
-	<%
+
+<%
 	session.setAttribute("loged", "false");
+	session.setAttribute("currentSessionUser","Login");
 	%>
+
+
+
+	<form action="LoginServlet" method="post">
+	
 		<div class="container">
 			<div class="d-flex justify-content-center h-100">
 				<div class="card">
@@ -150,12 +156,11 @@ input:focus {
 					</div>
 					<div class="card-footer">
 						<div class="d-flex justify-content-center links">
-							Don't have an account?<a href="#">Sign Up</a>
+							Don't have an account?<a href="Registration.jsp">Sign Up</a>
 						</div>
 						<div class="d-flex justify-content-center">
-							<a href="Home.jsp">Forgot your password?</a>
+							<a href="#" >Forgot your password?</a><a href="Home.jsp">Skip Login</a>
 						</div>
-						
 					</div>
 				</div>
 			</div>

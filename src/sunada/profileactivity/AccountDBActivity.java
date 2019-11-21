@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -57,11 +58,12 @@ public class AccountDBActivity {
 			
 		}
 	}
+	
 
 	
 
 	public boolean registerMe(String name, String userid, String mob, String password, String secq, String seca,
-			String utype, InputStream pic) {
+			String aadhar,double amt, InputStream pic) {
 
 		try {
 
@@ -71,17 +73,18 @@ public class AccountDBActivity {
 			chekingStatement.setString(1, userid);
 			ResultSet checkedResult = chekingStatement.executeQuery();
 			if (!checkedResult.next()) {
-				String insertingQuery = "insert into users values(?,?,?,?,?,?,?,?)";
+				String insertingQuery = "insert into users values(?,?,?,?,?,?,?,?,?)";
 				PreparedStatement insertStatement = (PreparedStatement) connection.prepareStatement(insertingQuery);
-				System.out.println(name);
+				
 				insertStatement.setString(1, name);
 				insertStatement.setString(2, mob);
 				insertStatement.setString(3, userid);
 				insertStatement.setString(4, password);
 				insertStatement.setString(5, secq);
 				insertStatement.setString(6, seca);
-				insertStatement.setString(7, utype);
-				insertStatement.setBlob(8, pic);
+				insertStatement.setString(7, aadhar);
+				insertStatement.setDouble(8, amt);
+				insertStatement.setBlob(9, pic);
 				int inserts = insertStatement.executeUpdate();
 				return true;
 			}

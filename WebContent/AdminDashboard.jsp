@@ -20,9 +20,6 @@
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="style.css">
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -141,33 +138,21 @@ section .section-title {
 </head>
 <body>
 	<%
-	String log = "";
-	String logeduser = "";
-	HttpSession usersession = request.getSession();
-	
-	try{
+		String log = "";
+		String logeduser = "";
 		if (session.getAttribute("currentSessionUser") != null && session.getAttribute("loged").equals("true")) {
+
 			logeduser = (String) session.getAttribute("currentSessionUser");
-			session.setAttribute("currentSessionUser",logeduser);
+			
 
 		} else {
 			logeduser = "Login";
-			session.setAttribute("currentSessionUser","Login");
-
+			
 		}
 		
-	}
-	catch(NullPointerException e)
-	{
-		logeduser = "Login";
-		session.setAttribute("currentSessionUser","Login");
-
-		
-	}
-	
 		
 		
-		
+		HttpSession usersession = request.getSession();
 		usersession.setAttribute("UserName", logeduser);
 
 		String dbUrl = "jdbc:mysql://localhost/sunada";
@@ -184,7 +169,6 @@ section .section-title {
 
 		checkedResult.next();
 		String pname1=checkedResult.getString(1);
-		session.setAttribute("selectedInstrument1", pname1);
 		String pdesc1=checkedResult.getString(3);
 		byte[] imgData1 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData1);
@@ -192,7 +176,6 @@ section .section-title {
 
 		checkedResult.next();
 		String pname2=checkedResult.getString(1);
-		session.setAttribute("selectedInstrument2", pname2);
 		String pdesc2=checkedResult.getString(3);
 		byte[] imgData2 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData2);
@@ -200,7 +183,6 @@ section .section-title {
 
 		checkedResult.next();
 		String pname3=checkedResult.getString(1);
-		session.setAttribute("selectedInstrument3", pname3);
 		String pdesc3=checkedResult.getString(3);
 		byte[] imgData3 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData3);
@@ -208,7 +190,6 @@ section .section-title {
 
 		checkedResult.next();
 		String pname4=checkedResult.getString(1);
-		session.setAttribute("selectedInstrument4", pname4);
 		String pdesc4=checkedResult.getString(3);
 		byte[] imgData4 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData4);
@@ -216,7 +197,6 @@ section .section-title {
 		
 		checkedResult.next();
 		String pname5=checkedResult.getString(1);
-		session.setAttribute("selectedInstrument5", pname5);
 		String pdesc5=checkedResult.getString(3);
 		byte[] imgData5 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData5);
@@ -224,7 +204,6 @@ section .section-title {
 
 		checkedResult.next();
 		String pname6=checkedResult.getString(1);
-		session.setAttribute("selectedInstrument6", pname6);
 		String pdesc6=checkedResult.getString(3);
 		byte[] imgData6 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData6);
@@ -232,7 +211,6 @@ section .section-title {
 
 		checkedResult.next();
 		String pname7=checkedResult.getString(1);
-		session.setAttribute("selectedInstrument7", pname7);
 		String pdesc7=checkedResult.getString(3);
 		byte[] imgData7 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData7);
@@ -240,7 +218,6 @@ section .section-title {
 
 		checkedResult.next();
 		String pname8=checkedResult.getString(1);
-		session.setAttribute("selectedInstrument8", pname8);
 		String pdesc8=checkedResult.getString(3);
 		byte[] imgData8 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData8);
@@ -258,30 +235,28 @@ section .section-title {
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
-						<span class="sr-only">(current)</span>
-				</a></li>
-			
-				<li class="nav-item"><a class="nav-link" href="<%=(logeduser.equals("Login")) ? "#" : "MyRents.jsp"%>">My Instruments</a></li>
+				<li class="nav-item"><a class="nav-link" href="AddInstrument.jsp">Add Instrument</a></li>
 
-				<li class="nav-item"><a class="nav-link disabled" href="#">Latest</a>
+				<li class="nav-item"><a class="nav-link" href="#">Update Instrument</a>
+				<li class="nav-item"><a class="nav-link " href="#">Delete Instrument</a>
+				<li class="nav-item"><a class="nav-link" href="ActiveRents.jsp">View Rent Request</a>
 				</li>
 			</ul>
 
 			<input class="form-control mr-sm-2" type="text"
-				placeholder="Search Instruments" aria-label="Search" name="instrument" > <input
+				placeholder="Search Instruments" aria-label="Search" name="instrument"> <input
 				type="submit" class="btn btn-outline-success my-2 my-sm-0 "
 				type="submit" name="clicked" value="search"> &nbsp; &nbsp;
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <%=logeduser%>
+				aria-expanded="false"> Administrator
 			</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="#"><%=(logeduser.equals("Login")) ? "Login Required" : "View Profile"%></a>
-					<a class="dropdown-item" href="#"><%=(logeduser.equals("Login")) ? "Login Required" : "Change Password"%></a>
+					
+					<a class="dropdown-item" href="#">Change Password</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="Login.jsp"><%=(logeduser.equals("Login")) ? "Login" : "Logout"%></a>
+					<a class="dropdown-item" href="Login.jsp">Logout</a>
 				</div></li>
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"></li>
@@ -303,17 +278,17 @@ section .section-title {
 					<div class="carousel-inner">
 						<div class="carousel-item active">
 							<img style="height: 500px; width: 700px" class="d-block w-100"
-								src="http://localhost:8081/Sunaada/Images/ConfigImages/slider1.jpg"
+								src="http://localhost:8080/Sunaada/Images/ConfigImages/slider1.jpg"
 								alt="First slide">
 						</div>
 						<div class="carousel-item">
 							<img style="height: 500px; width: 700px" class="d-block w-100"
-								src="http://localhost:8081/Sunaada/Images/ConfigImages/slider2.jpg"
+								src="http://localhost:8080/Sunaada/Images/ConfigImages/slider2.jpg"
 								alt="Second slide">
 						</div>
 						<div class="carousel-item">
 							<img style="height: 500px; width: 700px" class="d-block w-100"
-								src="http://localhost:8081/Sunaada/Images/ConfigImages/slider3.jpg"
+								src="http://localhost:8080/Sunaada/Images/ConfigImages/slider3.jpg"
 								alt="Second slide">
 						</div>
 					</div>
@@ -329,6 +304,8 @@ section .section-title {
 				</div>
 			</div>
 		</div>
+
+
 
 		<div class="container">
 			<div class="row mt-5">
@@ -347,13 +324,13 @@ section .section-title {
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow1" name="clicked">Rent Now</button>
-							&nbsp;<br><br>
+							<br /> &nbsp;
 							<button class="btn btn-danger text-light fa fa-heart"
 								aria-hidden="true" type="submit" value="wishlist1"
 								name="clicked">Add to Wish List</button>
 							<br /> <br />
 						</div>
-					</div>				
+					</div>
 				</div>
 
 
@@ -369,7 +346,7 @@ section .section-title {
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow2" name="clicked">Rent Now</button>
-							&nbsp;<br><br>
+							&nbsp;
 							<button class="btn btn-danger text-light fa fa-heart"
 								aria-hidden="true" type="submit" value="wishlist2" name="clicked">Add
 								to Wish List</button>
@@ -391,11 +368,11 @@ section .section-title {
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow3" name="clicked">Rent Now</button>
-							&nbsp;<br><br>
+							&nbsp;
 							<button class="btn btn-danger text-light fa fa-heart"
 								aria-hidden="true" type="submit" value="wishlist3" name="clicked">Add
 								to Wish List</button>
-							<br /> <br />	
+							<br /> <br />
 						</div>
 					</div>
 				</div>
@@ -410,9 +387,9 @@ section .section-title {
 						<div class="card-text">
 							<%= pdesc4 %><br />
 							<br />
-							<button class="btn btn-success text-light"  aria-hidden="true"
+							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow4" name="clicked">Rent Now</button>
-							&nbsp;<br><br>
+							&nbsp;
 							<button class="btn btn-danger text-light fa fa-heart"
 								aria-hidden="true" type="submit" value="wishlist4" name="clicked">Add
 								to Wish List</button>
@@ -441,7 +418,7 @@ section .section-title {
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow5" name="clicked">Rent Now</button>
-							&nbsp;<br><br>
+							&nbsp;
 							<button class="btn btn-danger text-light fa fa-heart"
 								aria-hidden="true" type="submit" value="wishlist5" name="clicked">Add
 								to Wish List</button>
@@ -463,7 +440,7 @@ section .section-title {
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow6" name="clicked">Rent Now</button>
-							&nbsp;<br><br>
+							&nbsp;
 							<button class="btn btn-danger text-light fa fa-heart"
 								aria-hidden="true" type="submit" value="wishlist6" name="clicked">Add
 								to Wish List</button>
@@ -484,7 +461,7 @@ section .section-title {
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow7" name="clicked">Rent Now</button>
-							&nbsp;<br><br>
+							&nbsp;
 							<button class="btn btn-danger text-light fa fa-heart"
 								aria-hidden="true" type="submit" value="wishlist7" name="clicked">Add
 								to Wish List</button>
@@ -505,7 +482,7 @@ section .section-title {
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow8" name="clicked">Rent Now</button>
-							<br><br>
+							<br>
 							<button class="btn btn-danger text-light fa fa-heart"
 								aria-hidden="true" type="submit" value="wishlist8" name="clicked">Add
 								to Wish List</button>

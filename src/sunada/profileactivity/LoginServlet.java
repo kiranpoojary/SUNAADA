@@ -52,16 +52,19 @@ public class LoginServlet extends HttpServlet {
 		        session.setAttribute("loged","false");
 		        if(activity.login(email, pass))
 		        {
-		        	    
+		        	  
 		             session.setAttribute("currentSessionUser",email); 
 		             session.setAttribute("loged","true");
-		             session.setAttribute("helper", "true");
-		             response.sendRedirect("Home.jsp"); //logged-in page   
 		             
-		        	/*
-		            RequestDispatcher rs = request.getRequestDispatcher("Home.jsp");
-		            rs.forward(request, response);
-		            */
+		            
+		             if(email.equals("adminsunada@gmail.com"))
+		             response.sendRedirect("AdminDashboard.jsp");
+		             else
+		             {
+		            	 response.sendRedirect("Home.jsp");  
+		             }
+		             
+		        	
 		        }
 		        else
 		        {
@@ -72,7 +75,6 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("loged","false");
 					RequestDispatcher requestDispatcher = request.getRequestDispatcher("Registration.jsp");
 					requestDispatcher.include(request, response);
-		        	
 		        	
 		        }
 			
