@@ -85,7 +85,7 @@
 									ResultSet instruInfo = getInstru.executeQuery();
 									instruInfo.next();
 
-									byte[] imgData = instruInfo.getBytes(7); // blob field 
+									byte[] imgData = instruInfo.getBytes(8); // blob field 
 									encode = Base64.getEncoder().encodeToString(imgData);
 									request.setAttribute("imgBase", encode);
 						%>
@@ -143,7 +143,7 @@
 	%>
 
 	<center>
-		<h1 style="color: #00FF00">Your Wish List Is Empty</h1>
+		<h1 style="color: #00FF00">You don't have any active Rents</h1>
 		<br> <br>
 
 		<%

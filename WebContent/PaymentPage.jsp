@@ -76,6 +76,8 @@ body {
 				String driverName = "com.mysql.jdbc.Driver";
 				Class.forName(driverName);
 				Connection connection = (Connection) DriverManager.getConnection(dbUrl, "root", "");
+				
+				System.out.println(session.getAttribute("reqQ").toString());
 
 				String selectedInstrument = (String) session.getAttribute("selectedInstrument");
 				int qty = Integer.parseInt(session.getAttribute("reqQ").toString());
@@ -129,7 +131,14 @@ body {
 
 					double totalDisc = Disc * totaldays * reqQuantity;
 
+					
 					double fare = (double) session.getAttribute("fare");
+					
+					
+					System.out.print(reqQuantity+"galu");
+					System.out.print(fare+"galu");
+					System.out.print(totaldays+"galu");
+					
 					double totalpay = fare * reqQuantity * totaldays;
 
 					session.setAttribute("totpay", totalpay);

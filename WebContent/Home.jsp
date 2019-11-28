@@ -174,7 +174,7 @@ section .section-title {
 		String driverName = "com.mysql.jdbc.Driver";
 		Class.forName(driverName);
 		Connection connection = (Connection) DriverManager.getConnection(dbUrl, "root", "");
-		String CheckingQuery = "select * from instruments";
+		String CheckingQuery = "select * from instruments order by sl desc";
 		Statement statement = connection.createStatement();
 
 		//PreparedStatement chekingStatement = (PreparedStatement) connection.prepareStatement(CheckingQuery);
@@ -183,65 +183,66 @@ section .section-title {
 		String encode;
 
 		checkedResult.next();
-		String pname1=checkedResult.getString(1);
+		String pname1=checkedResult.getString(2);
+		System.out.println(pname1);
 		session.setAttribute("selectedInstrument1", pname1);
-		String pdesc1=checkedResult.getString(3);
+		String pdesc1=checkedResult.getString(4);
 		byte[] imgData1 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData1);
 		request.setAttribute("imgBase1", encode);
 
 		checkedResult.next();
-		String pname2=checkedResult.getString(1);
+		String pname2=checkedResult.getString(2);
 		session.setAttribute("selectedInstrument2", pname2);
-		String pdesc2=checkedResult.getString(3);
+		String pdesc2=checkedResult.getString(4);
 		byte[] imgData2 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData2);
 		request.setAttribute("imgBase2", encode);
 
 		checkedResult.next();
-		String pname3=checkedResult.getString(1);
+		String pname3=checkedResult.getString(2);
 		session.setAttribute("selectedInstrument3", pname3);
-		String pdesc3=checkedResult.getString(3);
+		String pdesc3=checkedResult.getString(4);
 		byte[] imgData3 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData3);
 		request.setAttribute("imgBase3", encode);
 
 		checkedResult.next();
-		String pname4=checkedResult.getString(1);
+		String pname4=checkedResult.getString(2);
 		session.setAttribute("selectedInstrument4", pname4);
-		String pdesc4=checkedResult.getString(3);
+		String pdesc4=checkedResult.getString(4);
 		byte[] imgData4 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData4);
 		request.setAttribute("imgBase4", encode);
 		
 		checkedResult.next();
-		String pname5=checkedResult.getString(1);
+		String pname5=checkedResult.getString(2);
 		session.setAttribute("selectedInstrument5", pname5);
-		String pdesc5=checkedResult.getString(3);
+		String pdesc5=checkedResult.getString(4);
 		byte[] imgData5 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData5);
 		request.setAttribute("imgBase5", encode);
 
 		checkedResult.next();
-		String pname6=checkedResult.getString(1);
+		String pname6=checkedResult.getString(2);
 		session.setAttribute("selectedInstrument6", pname6);
-		String pdesc6=checkedResult.getString(3);
+		String pdesc6=checkedResult.getString(4);
 		byte[] imgData6 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData6);
 		request.setAttribute("imgBase6", encode);
 
 		checkedResult.next();
-		String pname7=checkedResult.getString(1);
+		String pname7=checkedResult.getString(2);
 		session.setAttribute("selectedInstrument7", pname7);
-		String pdesc7=checkedResult.getString(3);
+		String pdesc7=checkedResult.getString(4);
 		byte[] imgData7 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData7);
 		request.setAttribute("imgBase7", encode);
 
 		checkedResult.next();
-		String pname8=checkedResult.getString(1);
+		String pname8=checkedResult.getString(2);
 		session.setAttribute("selectedInstrument8", pname8);
-		String pdesc8=checkedResult.getString(3);
+		String pdesc8=checkedResult.getString(4);
 		byte[] imgData8 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData8);
 		request.setAttribute("imgBase8", encode);
@@ -278,7 +279,7 @@ section .section-title {
 				aria-expanded="false"> <%=logeduser%>
 			</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="#"><%=(logeduser.equals("Login")) ? "Login Required" : "View Profile"%></a>
+					<a class="dropdown-item" href="MyProfile.jsp"><%=(logeduser.equals("Login")) ? "Login Required" : "View Profile"%></a>
 					<a class="dropdown-item" href="#"><%=(logeduser.equals("Login")) ? "Login Required" : "Change Password"%></a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="Login.jsp"><%=(logeduser.equals("Login")) ? "Login" : "Logout"%></a>
@@ -303,17 +304,17 @@ section .section-title {
 					<div class="carousel-inner">
 						<div class="carousel-item active">
 							<img style="height: 500px; width: 700px" class="d-block w-100"
-								src="http://localhost:8081/Sunaada/Images/ConfigImages/slider1.jpg"
+								src="http://localhost:8080/Sunaada/Images/ConfigImages/slider1.jpg"
 								alt="First slide">
 						</div>
 						<div class="carousel-item">
 							<img style="height: 500px; width: 700px" class="d-block w-100"
-								src="http://localhost:8081/Sunaada/Images/ConfigImages/slider2.jpg"
+								src="http://localhost:8080/Sunaada/Images/ConfigImages/slider2.jpg"
 								alt="Second slide">
 						</div>
 						<div class="carousel-item">
 							<img style="height: 500px; width: 700px" class="d-block w-100"
-								src="http://localhost:8081/Sunaada/Images/ConfigImages/slider3.jpg"
+								src="http://localhost:8080/Sunaada/Images/ConfigImages/slider3.jpg"
 								alt="Second slide">
 						</div>
 					</div>
@@ -344,7 +345,7 @@ section .section-title {
 						</div>
 						<div class="card-text">
 							<%= pdesc1 %><br />
-							<br />
+							<br /><br>
 							<button class="btn btn-success text-light" " aria-hidden="true"
 								type="submit" value="rentNow1" name="clicked">Rent Now</button>
 							&nbsp;<br><br>

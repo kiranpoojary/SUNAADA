@@ -26,28 +26,42 @@ public class OperationOnProduct {
 	}
 
 	
-	public boolean addInstrument(String Instrument_Name, String Instrument_Category,String Instrument_Descr,double Per_Day_Fare,double Advance_Amount ,String Avail_Status,InputStream img1,InputStream img2) throws SQLException, ClassNotFoundException {
+	public boolean addInstrument(String Instrument_Name, String Instrument_Category,String Instrument_Descr,double Per_Day_Fare,double Advance_Amount ,int stock,InputStream img1,InputStream img2,int disc) throws  ClassNotFoundException {
+		
+		try {
+			
 		
 		Class.forName(driverName);
 		connection = (Connection) DriverManager.getConnection(dbUrl, "root", "");
 		// Add the data into the database
-		String sql = "insert into instruments values (?,?,?,?,?,?,?,?)";
+		String sql = "insert into instruments(Instrument_Name,Instrument_Category,Instrument_Descr,Per_Day_Fare,Advance_Amt,AvailQuantity,Image1,Image2,discount) values (?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pst = (PreparedStatement) connection.prepareStatement(sql);
 		pst.setString(1, Instrument_Name);
 		pst.setString(2, Instrument_Category);
 		pst.setString(3, Instrument_Descr);
 		pst.setDouble(4, (double) Per_Day_Fare);
 		pst.setDouble(5, (double) Advance_Amount);
-		try {
-			pst.setString(6, Avail_Status);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		pst.setInt(6, stock);
 		pst.setBlob(7,img1);
 		pst.setBlob(8,img2);
+		pst.setInt(9, disc);
 		int numRowsChanged = pst.executeUpdate();
-		return true;
+		
+		if(numRowsChanged>0)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		
 	
 	}
 	

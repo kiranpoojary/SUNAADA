@@ -20,10 +20,11 @@
 	src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
+<title>Insert title here</title>
 </head>
 <body>
-<form action="UpdaterentStatus.jsp" method="post">
-	<%
+	<form action="InstrumentDeleter.jsp" method="post">
+		<%
 		int count = 0;
 
 		try {
@@ -36,13 +37,8 @@
 			Connection connection = (Connection) DriverManager.getConnection(dbUrl, "root", "");
 
 			String logeduser = (String) session.getAttribute("currentSessionUser");
-			String query = "Select * from rent where  Status=? or Status=? ORDER BY Status DESC";
 			String instrument = null;
 			java.sql.PreparedStatement pstmt = null;
-			pstmt = connection.prepareStatement(query);
-			pstmt.setString(1, "On Rent");
-			pstmt.setString(2, "Requested");
-			ResultSet rs = pstmt.executeQuery();
 			String encode;
 	%>
 	<br>
@@ -59,19 +55,19 @@
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-image"></i></span>
 			</div>
-			<input type="text" name="rentid" class="form-control"
-				placeholder="Enter Rent ID" required>
+			<input type="text" name="iname" class="form-control"
+				placeholder="Enter Instrument Name" required>
 		</div>
 		<br>
 		<div class="form-group ">
 
-			<input type="submit" value="Update" class="btn reg_btn ">
+			<input type="submit" value="Delete Instrument" class="btn reg_btn ">
 			<br> <br>
 			<center>
 
 
 
-				<h1 style="color: red;">All Active Rentings</h1>
+				<h1 style="color: red;">All Instruments</h1>
 			</center>
 
 			<hr>
@@ -83,27 +79,27 @@
 								<tr>
 									<th>Instruments</th>
 
-									<th>Rental ID</th>
-									<th class="text-center">Rented quantity</th>
-									<th class="text-center">Hire Date</th>
-									<th class="text-center">Return Date</th>
-									<th class="text-center">Hire Status</th>
+									<th class="text-center">Quantity Available</th>
+									<th class="text-center">Fare/Day</th>
+									<th class="text-center">Seurity Deposite</th>
+									
 									<th> </th>
 								</tr>
 							</thead>
 							<tbody>
 
 								<%
-									while (rs.next()) {
+									
+											PreparedStatement getInstru = (PreparedStatement) connection
+													.prepareStatement("SELECT * FROM instruments where sl>?  ORDER BY sl DESC");
+											getInstru.setInt(1, 0);
+											ResultSet rs = getInstru.executeQuery();
+									
+										while(rs.next())
+										{
 											count++;
 
-											PreparedStatement getInstru = (PreparedStatement) connection
-													.prepareStatement("SELECT * FROM instruments where Instrument_Name=?");
-											getInstru.setString(1, rs.getString(3));
-											ResultSet instruInfo = getInstru.executeQuery();
-											instruInfo.next();
-
-											byte[] imgData = instruInfo.getBytes(8); // blob field 
+											byte[] imgData = rs.getBytes(8); // blob field 
 											encode = Base64.getEncoder().encodeToString(imgData);
 											request.setAttribute("imgBase", encode);
 								%>
@@ -118,27 +114,22 @@
 											</a>
 											<div class="media-body">
 												<h4 class="media-heading">
-													<a href="#"><%=rs.getString(3)%></a>
+													<a href="#"><%=rs.getString(2)%></a>
 												</h4>
 												<h5 class="media-heading">
-													Category <a href="#"><%=instruInfo.getString(2)%></a>
+													Category <a href="#"><%=rs.getString(3)%></a>
 												</h5>
-												<span>Status: </span><span class="text-success"><strong><%=(instruInfo.getInt(6) != 0) ? "Available" : "No Stock"%></strong></span>
+												<span>Status: </span><span class="text-success"><strong><%=(rs.getInt(6) != 0) ? "Available" : "No Stock"%></strong></span>
 											</div>
 										</div>
 									</td>
-									<td class="col-sm-1 col-md-1 text-center"><strong><%=rs.getInt(2)%></strong></td>
-
+								
 									<td class="col-sm-1 col-md-1" style="text-align: center"><input
 										type="email" class="form-control" id="exampleInputEmail1"
-										value="<%=rs.getInt(4)%>" disabled></td>
+										value="<%=rs.getInt(7)%>" disabled></td>
 									<td class="col-sm-1 col-md-1 text-center"><strong><%=rs.getString(5)%></strong></td>
 									<td class="col-sm-1 col-md-1 text-center"><strong><%=rs.getString(6)%></strong></td>
-									<td class="col-sm-1 col-md-1">
-										<button type="button" class="btn btn-danger">
-											<span class="glyphicon "></span><%=rs.getString(11)%>
-										</button>
-									</td>
+									
 								</tr>
 
 
@@ -168,8 +159,8 @@
 					}
 
 					}
-				%>
-				
-			</form>
+				%>	
+	</form>
+
 </body>
 </html>

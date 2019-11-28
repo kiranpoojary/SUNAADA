@@ -161,7 +161,7 @@
 	<form action="InstrumentServlet" name="frm" method="post" id="myform"
 		onsubmit="return validateForm()">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light"> <a
-			class="navbar-brand" href="Home.jsp">Sunada</a>
+			class="navbar-brand" href="AdminDashboard.jsp">Sunada</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -264,50 +264,7 @@
 					</div>
 
 
-					<div class="row mt-4">
-						<h4>Required Instrument: &nbsp; &nbsp;</h4>
-						<p style="font-size: 21px">
-							<input class="form-control" max=6 min=1 value="1" type="number" name="reqQty">
-						</p>
-					</div>
-					<div class="row mt-4">
-						&nbsp; &nbsp; &nbsp; &nbsp;
-						<%
-							if (status.equals("Available")) {
-						%>
-						From&nbsp; &nbsp; &nbsp;<input type="date" class="form-control"
-							min="<%=java.time.LocalDate.now().toString()%>"
-							style="height: 40px; width: 180px" name="datefrom"
-							value="<%=java.time.LocalDate.now().toString()%>" required>
-						&nbsp; &nbsp; &nbsp; &nbsp; To&nbsp; &nbsp; &nbsp; <input
-							type="date" class="form-control"
-							min="<%=java.time.LocalDate.now().plusDays(1).toString()%>"
-							style="height: 40px; width: 180px" name="dateto"
-							value="<%=java.time.LocalDate.now().plusDays(1).toString()%>"
-							required> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-						&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-</div >
-						
-						<%
-						
-							out.print("<button class='btn btn-success text-light'  aria-hidden='true' type='submit' value='rentNow' name='clicked'>Rent Now</button>");
-							} else {
 
-								out.print(
-										"<button class='btn btn-success text-light'  aria-hidden='true' type='submit' value='rentNow' name='clicked' disabled>Rent Now</button>");
-
-							}
-						%>
-
-						&nbsp; &nbsp; &nbsp; &nbsp;
-						<button class="btn btn-danger text-light fa fa-heart"
-							aria-hidden="true" type="submit" value="addwishlist"
-							name="clicked">Add To Wish List</button>
-						<p style="font-size: 21px"></p>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<%
 			int rate;
@@ -382,27 +339,7 @@
 			<%
 				} else {
 			%>
-			<div class="row mb-5">
-				<h2>Post Your Own Reviews</h2>
-			</div>
-
-
-
-
-			<div class="form-group">
-				<label for="exampleInputPassword1">Add Your Reviews Bellow</label>
-				<textarea type="text" class="form-control" id="exampleInputtextarea"
-					name="review" placeholder="write your own reviews" rows="3"></textarea>
-			</div>
-			Select Rating <input class="list" type="number" name="rate" value=1
-				min=1 max=5>
-			<div class="form-check"></div>
-			<br>
-			<button type="submit" onclick="return IsEmpty();" name="clicked"
-				value="review" class="btn btn-primary">Submit Review</button>
-
-		</div>
-
+			
 
 	<%
 				}

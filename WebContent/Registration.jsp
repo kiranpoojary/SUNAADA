@@ -46,7 +46,7 @@
 <style type="text/css">
 body, html {
 	background-image:
-		url(http://localhost:8081/Sunaada/Images/ConfigImages/background2.jpg);
+		url(http://localhost:8080/Sunaada/Images/ConfigImages/background2.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 100%;

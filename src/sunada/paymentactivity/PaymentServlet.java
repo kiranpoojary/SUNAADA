@@ -88,14 +88,14 @@ public class PaymentServlet extends HttpServlet {
 					
 					if (wallet.payBill(user,selectedInstrument,qty,startdate,enddate,totalpay,0.00,0.00,address,"InRent")) {
 						out.println("<script type=\"text/javascript\">");
-						out.println("alert('Your rent request Successfuly placed');");
+						out.println("alert('Your rent request Successfuly placed..');");
 						out.println("location='Instrument.jsp';");
 						out.println("</script>");
 					} else {
 					
 					
 						out.println("<script type=\"text/javascript\">");
-						out.println("alert('Something went wrong');");
+						out.println("alert('Something went wrong!!');");
 						out.println("location='Instrument.jsp';");
 						out.println("</script>");
 					}

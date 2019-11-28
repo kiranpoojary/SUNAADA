@@ -66,7 +66,7 @@ public class RegistrationServlet extends HttpServlet {
 
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('You are Successfuly Registred With Sunada');");
-				out.println("location='PaymentPage.jsp';");
+				out.println("location='Login.jsp';");
 				out.println("</script>");
 
 			} else {

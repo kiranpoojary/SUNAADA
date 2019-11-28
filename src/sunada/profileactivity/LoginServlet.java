@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import sunada.SendMail;
+
 
 /**
  * Servlet implementation class LoginServlet
@@ -50,6 +52,7 @@ public class LoginServlet extends HttpServlet {
 		        String pass = request.getParameter("password"); 
 		        HttpSession session = request.getSession(true);	
 		        session.setAttribute("loged","false");
+		        //SendMail sendMail=new SendMail();
 		        if(activity.login(email, pass))
 		        {
 		        	  
@@ -58,8 +61,13 @@ public class LoginServlet extends HttpServlet {
 		             
 		            
 		             if(email.equals("adminsunada@gmail.com"))
-		             response.sendRedirect("AdminDashboard.jsp");
-		             else
+		             {
+		            	// sendMail.SendEmail();
+		            	 response.sendRedirect("AdminDashboard.jsp");
+				            
+		            	 
+		             }
+		              else
 		             {
 		            	 response.sendRedirect("Home.jsp");  
 		             }

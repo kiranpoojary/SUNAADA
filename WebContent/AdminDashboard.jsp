@@ -159,7 +159,7 @@ section .section-title {
 		String driverName = "com.mysql.jdbc.Driver";
 		Class.forName(driverName);
 		Connection connection = (Connection) DriverManager.getConnection(dbUrl, "root", "");
-		String CheckingQuery = "select * from instruments";
+		String CheckingQuery = "select * from instruments order by sl desc";
 		Statement statement = connection.createStatement();
 
 		//PreparedStatement chekingStatement = (PreparedStatement) connection.prepareStatement(CheckingQuery);
@@ -168,57 +168,57 @@ section .section-title {
 		String encode;
 
 		checkedResult.next();
-		String pname1=checkedResult.getString(1);
-		String pdesc1=checkedResult.getString(3);
+		String pname1=checkedResult.getString(2);
+		String pdesc1=checkedResult.getString(4);
 		byte[] imgData1 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData1);
 		request.setAttribute("imgBase1", encode);
 
 		checkedResult.next();
-		String pname2=checkedResult.getString(1);
-		String pdesc2=checkedResult.getString(3);
+		String pname2=checkedResult.getString(2);
+		String pdesc2=checkedResult.getString(4);
 		byte[] imgData2 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData2);
 		request.setAttribute("imgBase2", encode);
 
 		checkedResult.next();
-		String pname3=checkedResult.getString(1);
-		String pdesc3=checkedResult.getString(3);
+		String pname3=checkedResult.getString(2);
+		String pdesc3=checkedResult.getString(4);
 		byte[] imgData3 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData3);
 		request.setAttribute("imgBase3", encode);
 
 		checkedResult.next();
-		String pname4=checkedResult.getString(1);
-		String pdesc4=checkedResult.getString(3);
+		String pname4=checkedResult.getString(2);
+		String pdesc4=checkedResult.getString(4);
 		byte[] imgData4 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData4);
 		request.setAttribute("imgBase4", encode);
 		
 		checkedResult.next();
-		String pname5=checkedResult.getString(1);
-		String pdesc5=checkedResult.getString(3);
+		String pname5=checkedResult.getString(2);
+		String pdesc5=checkedResult.getString(4);
 		byte[] imgData5 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData5);
 		request.setAttribute("imgBase5", encode);
 
 		checkedResult.next();
-		String pname6=checkedResult.getString(1);
-		String pdesc6=checkedResult.getString(3);
+		String pname6=checkedResult.getString(2);
+		String pdesc6=checkedResult.getString(4);
 		byte[] imgData6 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData6);
 		request.setAttribute("imgBase6", encode);
 
 		checkedResult.next();
-		String pname7=checkedResult.getString(1);
-		String pdesc7=checkedResult.getString(3);
+		String pname7=checkedResult.getString(2);
+		String pdesc7=checkedResult.getString(4);
 		byte[] imgData7 = checkedResult.getBytes(8); // blob field 
 		encode = Base64.getEncoder().encodeToString(imgData7);
 		request.setAttribute("imgBase7", encode);
 
 		checkedResult.next();
-		String pname8=checkedResult.getString(1);
-		String pdesc8=checkedResult.getString(3);
+		String pname8=checkedResult.getString(2);
+		String pdesc8=checkedResult.getString(4);
 		byte[] imgData8 = checkedResult.getBytes(8);
 		encode = Base64.getEncoder().encodeToString(imgData8);
 		request.setAttribute("imgBase8", encode);
@@ -237,17 +237,13 @@ section .section-title {
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"><a class="nav-link" href="AddInstrument.jsp">Add Instrument</a></li>
 
-				<li class="nav-item"><a class="nav-link" href="#">Update Instrument</a>
-				<li class="nav-item"><a class="nav-link " href="#">Delete Instrument</a>
+				<li class="nav-item"><a class="nav-link " href="DeleteInstrument.jsp">Delete Instrument</a>
 				<li class="nav-item"><a class="nav-link" href="ActiveRents.jsp">View Rent Request</a>
 				</li>
 			</ul>
 
-			<input class="form-control mr-sm-2" type="text"
-				placeholder="Search Instruments" aria-label="Search" name="instrument"> <input
-				type="submit" class="btn btn-outline-success my-2 my-sm-0 "
-				type="submit" name="clicked" value="search"> &nbsp; &nbsp;
-			<li class="nav-item dropdown"><a
+			 &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+			&nbsp; &nbsp;<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
 				aria-expanded="false"> Administrator
@@ -261,9 +257,7 @@ section .section-title {
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"></li>
 				<li class="nav-item">
-					<button class="btn btn-danger text-light fa fa-heart"
-						aria-hidden="true" type="submit" value="wishlistAll"
-						name="clicked">Wish List</button>
+
 				</li>
 			</ul>
 		</div>
@@ -321,13 +315,11 @@ section .section-title {
 						</div>
 						<div class="card-text">
 							<%= pdesc1 %><br />
-							<br />
+							<br /><br>
 							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow1" name="clicked">Rent Now</button>
-							<br /> &nbsp;
-							<button class="btn btn-danger text-light fa fa-heart"
-								aria-hidden="true" type="submit" value="wishlist1"
-								name="clicked">Add to Wish List</button>
+								type="submit" value="rentNow1" name="clicked">View Details</button>
+							 &nbsp;<br><br>
+							
 							<br /> <br />
 						</div>
 					</div>
@@ -345,11 +337,9 @@ section .section-title {
 							<%= pdesc2 %><br />
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow2" name="clicked">Rent Now</button>
-							&nbsp;
-							<button class="btn btn-danger text-light fa fa-heart"
-								aria-hidden="true" type="submit" value="wishlist2" name="clicked">Add
-								to Wish List</button>
+								type="submit" value="rentNow2" name="clicked">View Details</button>
+							&nbsp;<br><br>
+
 							<br /> <br />
 						</div>
 					</div>
@@ -367,11 +357,9 @@ section .section-title {
 							<%= pdesc3 %><br />
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow3" name="clicked">Rent Now</button>
-							&nbsp;
-							<button class="btn btn-danger text-light fa fa-heart"
-								aria-hidden="true" type="submit" value="wishlist3" name="clicked">Add
-								to Wish List</button>
+								type="submit" value="rentNow3" name="clicked">View Details</button>
+							&nbsp;<br><br>
+
 							<br /> <br />
 						</div>
 					</div>
@@ -388,11 +376,9 @@ section .section-title {
 							<%= pdesc4 %><br />
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow4" name="clicked">Rent Now</button>
-							&nbsp;
-							<button class="btn btn-danger text-light fa fa-heart"
-								aria-hidden="true" type="submit" value="wishlist4" name="clicked">Add
-								to Wish List</button>
+								type="submit" value="rentNow4" name="clicked">View Details</button>
+							&nbsp;<br><br>
+
 							<br /> <br />
 						</div>
 					</div>
@@ -417,11 +403,9 @@ section .section-title {
 							<%= pdesc5 %><br />
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow5" name="clicked">Rent Now</button>
-							&nbsp;
-							<button class="btn btn-danger text-light fa fa-heart"
-								aria-hidden="true" type="submit" value="wishlist5" name="clicked">Add
-								to Wish List</button>
+								type="submit" value="rentNow5" name="clicked">View Details</button>
+							&nbsp;<br><br>
+
 							<br /> <br />
 						</div>
 					</div>
@@ -439,11 +423,9 @@ section .section-title {
 							<%= pdesc6 %><br />
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow6" name="clicked">Rent Now</button>
-							&nbsp;
-							<button class="btn btn-danger text-light fa fa-heart"
-								aria-hidden="true" type="submit" value="wishlist6" name="clicked">Add
-								to Wish List</button>
+								type="submit" value="rentNow6" name="clicked">View Details</button>
+							&nbsp;<br><br>
+
 							<br /> <br />
 						</div>
 					</div>
@@ -460,11 +442,9 @@ section .section-title {
 							<%= pdesc7 %><br />
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow7" name="clicked">Rent Now</button>
-							&nbsp;
-							<button class="btn btn-danger text-light fa fa-heart"
-								aria-hidden="true" type="submit" value="wishlist7" name="clicked">Add
-								to Wish List</button>
+								type="submit" value="rentNow7" name="clicked">View Details</button>
+							&nbsp;<br><br>
+
 							<br /> <br />
 						</div>
 					</div>
@@ -481,11 +461,9 @@ section .section-title {
 							<%= pdesc8 %><br />
 							<br />
 							<button class="btn btn-success text-light" " aria-hidden="true"
-								type="submit" value="rentNow8" name="clicked">Rent Now</button>
-							<br>
-							<button class="btn btn-danger text-light fa fa-heart"
-								aria-hidden="true" type="submit" value="wishlist8" name="clicked">Add
-								to Wish List</button>
+								type="submit" value="rentNow8" name="clicked">View Details</button>
+							<br><br>
+
 							<br /> <br />
 						</div>
 					</div>

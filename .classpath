@@ -5,11 +5,12 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/Program Files/apache-tomcat-7.0.96/lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/apache-tomcat-7.0.96/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="C:/Users/KIRAN/Desktop/mysql-connector-java-5.1.17-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/wamp64/bin/mysql/mysql-connector-java-5.1.17-bin.jar/mysql-connector-java-5.1.17-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/KIRAN/git/javax.mail.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -8,7 +8,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.lang.model.element.VariableElement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import com.mysql.jdbc.PreparedStatement;
  * Servlet implementation class AddInstrumentServlet
  */
 @WebServlet("/AddInstrumentServlet")
+@MultipartConfig(maxFileSize = 16177216) // 1.5MB
 public class AddInstrumentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final double Advanvce_Amount = 0.0;
@@ -36,70 +39,76 @@ public class AddInstrumentServlet extends HttpServlet {
 	}
 
 	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		
-		
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		String Instrument_Name = request.getParameter("iname");
-		
-		System.out.print(Instrument_Name);
-		
-		String Instrument_Category = request.getParameter("icategory");
-		String Instrument_Descr = request.getParameter("idesc");
-		double Per_Day_Fare =Double.parseDouble((String)request.getParameter("fare"));
-		double Advance_Amount =Double.parseDouble(request.getParameter("advance"));
-		String Avail_Status = "Available";
-		//Integer stock=Integer.parseInt(request.getParameter("stock"));
-		Part Image1 = request.getPart("myFile1");
-		Part Image2 = request.getPart("myFile2");
-		
-		InputStream img1 = null;
-		InputStream img2 = null;
-		if (Image1 != null) {
-			img1 = Image1.getInputStream();
-		}
-		if (Image2 != null) {
-			img2 = Image2.getInputStream();
-		}
 		try {
 
-			System.out.print(Per_Day_Fare);
-			System.out.print(Advance_Amount);
-			System.out.print(Instrument_Descr);
-			System.out.print(Per_Day_Fare);
-			System.out.print(Advance_Amount);
-			System.out.print(Instrument_Descr);
-			System.out.print(Per_Day_Fare);
-			System.out.print(Advance_Amount);
-			System.out.print(Instrument_Descr);
-			
-			
-			//OperationOnProduct operationOnProduct=new OperationOnProduct();
-			//boolean inserted=operationOnProduct.addInstrument(Instrument_Name, Instrument_Category, Instrument_Descr, Per_Day_Fare, Advance_Amount, Avail_Status, img1, img2);
-			/* show that the new account has been created
-			if(inserted)
-			{
-				out.println(" Successfully Inserted : ");
+			response.setContentType("text/html");
+			String Instrument_Name = request.getParameter("iname");
+
+			String Instrument_Category = request.getParameter("icat");
+			String Instrument_Descr = request.getParameter("idesc");
+			double Per_Day_Fare = Double.parseDouble((String) request.getParameter("pdf"));
+			double Advance_Amount = Double.parseDouble(request.getParameter("advance"));
+			int stock = Integer.parseInt(request.getParameter("stock"));
+			int disc = Integer.parseInt(request.getParameter("discount"));
+			Part Image1 = request.getPart("pic1");
+			Part Image2 = request.getPart("pic2");
+
+			InputStream img1 = null;
+			InputStream img2 = null;
+			if (Image1 != null) {
+				img1 = Image1.getInputStream();
 			}
-			else {
-				out.println(" NotInserted : ");
+			if (Image2 != null) {
+				img2 = Image2.getInputStream();
+			}
+
+			OperationOnProduct operationOnProduct = new OperationOnProduct();
+			boolean inserted = operationOnProduct.addInstrument(Instrument_Name, Instrument_Category, Instrument_Descr,
+					Per_Day_Fare, Advance_Amount, stock, img1, img2, disc);
+
+			// show that the new account has been created
+			if (inserted) {
+				PrintWriter out = response.getWriter();
 				
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('Instrument Successfuly added');");
+				out.println("location='AddInstrument.jsp';");
+				out.println("</script>");
+			} else {
+				PrintWriter out = response.getWriter();
+				
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('Something went Wrong(duplicate Instrument Name,No DB connection etc)');");
+				out.println("location='AddInstrument.jsp';");
+				out.println("</script>");
+
 			}
-			*/
-			
-			//pst.close();
+
+			// pst.close();
 		} catch (Exception e) {
-			out.println("Couldn't load database driver: " + e.getMessage());
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Something went Wrong(duplicate Instrument Name,No DB connection etc)');");
+			out.println("location='AddInstrument.jsp';");
+			out.println("</script>");
 		} finally {
 
-			
-			}
 		}
 	}
-
+}

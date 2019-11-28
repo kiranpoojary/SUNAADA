@@ -69,35 +69,83 @@ public class HomeServlet extends HttpServlet {
 
 			selectedInstru = (String) session.getAttribute("selectedInstrument1");
 			session.setAttribute("selectedInstrument", selectedInstru);
+			if(user.equals("adminsunada@gmail.com"))
+			{
+				response.sendRedirect("AdminInstrument.jsp");
+
+			}
+			else
 			response.sendRedirect("Instrument.jsp");
 
 		} else if (button.equals("rentNow2")) {
 			selectedInstru = (String) session.getAttribute("selectedInstrument2");
 			session.setAttribute("selectedInstrument", selectedInstru);
+			if(user.equals("adminsunada@gmail.com"))
+			{
+				response.sendRedirect("AdminInstrument.jsp");
+
+			}
+			else
 			response.sendRedirect("Instrument.jsp");
 		} else if (button.equals("rentNow3")) {
 			selectedInstru = (String) session.getAttribute("selectedInstrument3");
 			session.setAttribute("selectedInstrument", selectedInstru);
+			if(user.equals("adminsunada@gmail.com"))
+			{
+				response.sendRedirect("AdminInstrument.jsp");
+
+			}
+			else
 			response.sendRedirect("Instrument.jsp");
 		} else if (button.equals("rentNow4")) {
 			selectedInstru = (String) session.getAttribute("selectedInstrument4");
 			session.setAttribute("selectedInstrument", selectedInstru);
+			if(user.equals("adminsunada@gmail.com"))
+			{
+				response.sendRedirect("AdminInstrument.jsp");
+
+			}
+			else
 			response.sendRedirect("Instrument.jsp");
 		} else if (button.equals("rentNow5")) {
 			selectedInstru = (String) session.getAttribute("selectedInstrument5");
 			session.setAttribute("selectedInstrument", selectedInstru);
+			if(user.equals("adminsunada@gmail.com"))
+			{
+				response.sendRedirect("AdminInstrument.jsp");
+
+			}
+			else
 			response.sendRedirect("Instrument.jsp");
 		} else if (button.equals("rentNow6")) {
 			selectedInstru = (String) session.getAttribute("selectedInstrument6");
 			session.setAttribute("selectedInstrument", selectedInstru);
+			if(user.equals("adminsunada@gmail.com"))
+			{
+				response.sendRedirect("AdminInstrument.jsp");
+
+			}
+			else
 			response.sendRedirect("Instrument.jsp");
 		} else if (button.equals("rentNow7")) {
 			selectedInstru = (String) session.getAttribute("selectedInstrument7");
 			session.setAttribute("selectedInstrument", selectedInstru);
+			if(user.equals("adminsunada@gmail.com"))
+			{
+				response.sendRedirect("AdminInstrument.jsp");
+
+			}
+			else
 			response.sendRedirect("Instrument.jsp");
 		} else if (button.equals("rentNow8")) {
 			selectedInstru = (String) session.getAttribute("selectedInstrument8");
 			session.setAttribute("selectedInstrument", selectedInstru);
+			if(user.equals("adminsunada@gmail.com"))
+			{
+				response.sendRedirect("AdminInstrument.jsp");
+
+			}
+			else
 			response.sendRedirect("Instrument.jsp");
 		} else if (button.equals("wishlist1")) {
 			selectedInstru = (String) session.getAttribute("selectedInstrument1");

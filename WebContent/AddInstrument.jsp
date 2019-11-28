@@ -148,7 +148,7 @@ input:focus {
 
 <body>
 	
-	<form name="add" action="InstrumentAdder.jsp"  method="get" enctype='multipart/form-data'>
+	<form name="add" action="AddInstrumentServlet"  method="post" enctype='multipart/form-data'>
 	
 		<div class="container">
 			<div class="d-flex justify-content-center h-100">
@@ -173,18 +173,35 @@ input:focus {
 								<span class="input-group-text"><i class="fas fa-question"></i></span>
 							</div>
 							<div class="dropdown">
-								<select id="cat" name="cat" class="list">
-									
-									<option value="Thabala">Thabala</option>
-									<option value="Veena">Veena</option>
-									<option
-										value="Violin">Violin</option>
-									<option value="Morsing">Morsing</option>
-										<option value="Mridanga">Mridanga</option>
+								<select id="cat" name="icat" class="list">
+									<option value="Bell">Bell</option>
+									<option value="Bowl">Bowl</option>
 									<option value="Flute">Flute</option>
 									<option value="Ghata">Ghata</option>
-									<option
-										value="Khanjari">Khanjari</option>
+									<option value="Morsing">Morsing</option>
+									<option value="Mridanga">Mridanga</option>
+									<option value="Khanjari">Khanjari</option>
+									<option value="Khartal">Khartal</option>
+									<option value="Shehnai">Shehnai</option>
+									<option value="Surbahar">Surbahar</option>
+									<option value="Taala">Taala</option>
+									<option value="Tavil">Tavil</option>
+									<option value="Thamburi">Thamburi</option>
+									<option value="Thabala">Thabala</option>
+									<option value="Veena">Veena</option>
+									<option value="Violin">Violin</option>
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
 									
 								</select>
 							</div>
@@ -194,7 +211,7 @@ input:focus {
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-question"></i></span>
 							</div>
-							<input type="text" name="desc" id="eid" class="form-control"
+							<input type="text" name="idesc" id="eid" class="form-control"
 								placeholder="Description" required>
 						</div>
 						<div class="input-group form-group">
@@ -210,7 +227,7 @@ input:focus {
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-question"></i></span>
 							</div>
-							<input type="text" name="deposite" 
+							<input type="text" name="advance" 
 								id="psw" class="form-control" placeholder="Security Deposite"   required>
 						</div>
 						<div class="input-group form-group">

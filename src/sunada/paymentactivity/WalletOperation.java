@@ -63,6 +63,7 @@ public class WalletOperation {
 	
 	public boolean payBill(String name,String instru,int qty, Date hire,Date due,double totpay,double advpay,double duepay,String delAddr,String sts) throws SQLException{
 		
+		
 		connection = DriverManager.getConnection(dbUrl, "root", "");
 			String insertingQuery = "insert into rent(UserID,Instrument_Name,Quantity,Hire_Date,Due_Date,Total_Pay,Advance_Pay,Due_Pay,DeliveryAddress,Status ) values(?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement insertStatement = (PreparedStatement) connection.prepareStatement(insertingQuery);
@@ -86,6 +87,7 @@ public class WalletOperation {
 				return false;
 			}
 			
+		
 	
 		
 	}
