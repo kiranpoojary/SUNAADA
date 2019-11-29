@@ -116,7 +116,6 @@ body {
 					String strFrom = (String) session.getAttribute("from");
 					Date from = formatter2.parse(strFrom);
 
-					System.out.print((String) session.getAttribute("currentSessionUser"));
 
 					String strTo = (String) session.getAttribute("to");
 					Date to = formatter2.parse(strTo);
@@ -135,15 +134,10 @@ body {
 					
 					double fare = (double) session.getAttribute("fare");
 					
-					
-					System.out.print(reqQuantity+"galu");
-					System.out.print(fare+"galu");
-					System.out.print(totaldays+"galu");
+				
 					
 					double totalpay = fare * reqQuantity * totaldays;
 
-					System.out.println("TOTAL PAY"+totalpay);
-					System.out.println("BAL"+bal);
 					session.setAttribute("totpay", totalpay);
 
 					if (bal < totalpay) {
