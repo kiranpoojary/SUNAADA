@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -108,7 +109,7 @@ body {
 					ps.setString(1, (String) session.getAttribute("currentSessionUser"));
 					ResultSet rs = ps.executeQuery();
 					rs.next();
-					float bal = rs.getFloat(1);
+					double bal = rs.getDouble(1);
 
 					session.setAttribute("balance", bal);
 					SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -141,6 +142,8 @@ body {
 					
 					double totalpay = fare * reqQuantity * totaldays;
 
+					System.out.println("TOTAL PAY"+totalpay);
+					System.out.println("BAL"+bal);
 					session.setAttribute("totpay", totalpay);
 
 					if (bal < totalpay) {
@@ -153,12 +156,12 @@ body {
 			<br>
 			<ul class="nav nav-pills nav-stacked" style="width: 555px">
 				<li class="active"><a href="#"><span
-						class="badge pull-right"><span class="fas fa-rupee-sign"></span><%=bal%></span>
+						class="badge pull-right"><span class="fas fa-rupee-sign"></span><%=bal%>0</span>
 						Wallet Balance</a></li>
 			</ul>
 			<ul class="nav nav-pills nav-stacked" style="width: 555px">
 				<li class="active"><a href="#"><span
-						class="badge pull-right"><span class="fas fa-rupee-sign"></span><%=totalpay - bal%></span>
+						class="badge pull-right"><span class="fas fa-rupee-sign"></span><%= totalpay-bal %>0</span>
 						Shortage of Amount</a></li>
 			</ul>
 			<hr>
